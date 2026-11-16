@@ -58,8 +58,8 @@ Required inputs and assumptions in the current implementation:
   Surface fitting also needs this array with the supplied vertical acceptance
   check enabled (`require_vertical_profile: true`, minimum depth 50 m).
 - `paths.output_root`: writable parent directory for all generated outputs.
-- `paths.esp_zonodo`: external ESP directory as described below. Preserve this
-  configuration key's spelling.
+- `paths.esp_root`: external ESP directory containing `functions.py`, as
+  described below.
 
 The supplied config uses 16 process workers and `parallel.skip_existing: false`.
 Rerunning stages therefore replaces their outputs. Set `skip_existing: true`
@@ -77,9 +77,10 @@ SEACOFS application.
 1. Download and extract ESP v1.01 from its
    [version-specific Zenodo record](https://zenodo.org/records/19364198)
    ([source release](https://github.com/regdowse/elliptical_streamfunction_parametrisation/tree/v1.01)).
-2. Set `paths.esp_zonodo` in `config/local.yaml` to the extracted local
+2. Set `paths.esp_root` in `config/local.yaml` to the extracted local
    directory containing `functions.py`. The supplied
-   `/home/z5297792/ESP_zonodo` is specific to the Katana installation.
+   `/home/z5297792/elliptical_streamfunction_parametrisation` is specific to
+   the Katana installation.
 3. Provide the dependencies required by that ESP release in the same Python
    environment, following its own installation instructions.
 

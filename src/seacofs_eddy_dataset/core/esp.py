@@ -9,8 +9,8 @@ from seacofs_eddy_dataset.config import PipelineConfig
 
 
 def load_doppio_functions(config: PipelineConfig) -> tuple[Callable, Callable]:
-    """Load the external ESP_zonodo DOPPIO routines used by the old notebooks."""
-    esp_path = config.raw.get("paths", {}).get("esp_zonodo")
+    """Load the external ESP DOPPIO routines used by the pipeline."""
+    esp_path = config.raw.get("paths", {}).get("esp_root")
     if esp_path:
         path = str(Path(esp_path).expanduser())
         if path not in sys.path:
@@ -20,7 +20,7 @@ def load_doppio_functions(config: PipelineConfig) -> tuple[Callable, Callable]:
         functions = importlib.import_module("functions")
     except ModuleNotFoundError as exc:
         raise ModuleNotFoundError(
-            "Could not import ESP_zonodo `functions.py`. Set `paths.esp_zonodo` "
+            "Could not import ESP `functions.py`. Set `paths.esp_root` "
             "in the pipeline config to the directory containing it."
         ) from exc
 

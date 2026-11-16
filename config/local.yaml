@@ -5,8 +5,8 @@ paths:
   output_root: /srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular
   # Reference depth array used by vertical profile interpolation.
   z_r: /srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular/z_r.npy 
-  # Directory containing ESP_zonodo/functions.py for DOPPIO fitting.
-  esp_zonodo: /home/z5297792/ESP_zonodo
+  # ESP directory containing functions.py for DOPPIO fitting.
+  esp_root: /home/z5297792/elliptical_streamfunction_parametrisation
 
 files:
   grid_reference: outer_avg_01461.nc
