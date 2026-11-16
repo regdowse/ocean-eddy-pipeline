@@ -1,0 +1,41 @@
+#!/bin/bash
+#PBS -N seacofs_eddy
+#PBS -l select=1:ncpus=16:mem=64gb
+#PBS -l walltime=12:00:00
+#PBS -j oe
+
+set -e
+
+# Submit from the repository root. Override EDDY_VENV with qsub -v if needed.
+cd "${PBS_O_WORKDIR:?Submit this script with qsub from the repository root}"
+EDDY_VENV="${EDDY_VENV:-${HOME}/myenv310}"
+source "${EDDY_VENV}/bin/activate"
+
+# Each file worker uses one numerical-library thread.
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export MPLBACKEND=Agg
+export PYTHONUNBUFFERED=1
+export PYTHONDONTWRITEBYTECODE=1
+export PYTHONPATH="${PWD}/src${PYTHONPATH:+:${PYTHONPATH}}"
+
+# Check the external dependency before starting the long computation.
+python - <<'PY'
+import inspect
+from pathlib import Path
+from seacofs_eddy_dataset.config import load_config
+from seacofs_eddy_dataset.core.esp import load_doppio_functions
+
+config = load_config('config/local.yaml')
+expected = (Path(config.raw['paths']['esp_root']) / 'functions.py').resolve()
+for function in load_doppio_functions(config):
+    actual = Path(inspect.getfile(function)).resolve()
+    if actual != expected:
+        raise RuntimeError(f'Unexpected ESP module: {actual}; expected {expected}')
+    inspect.signature(function).bind(*([None] * 8))
+    print(f'ESP function: {function.__name__} from {actual}', flush=True)
+PY
+
+python -m seacofs_eddy_dataset.cli run-all --config config/local.yaml

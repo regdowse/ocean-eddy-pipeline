@@ -140,6 +140,32 @@ python -m seacofs_eddy_dataset.cli list-stages
 python -m seacofs_eddy_dataset.cli run-stage detect_nencioli --config config/local.yaml
 ```
 
+For a full run on Katana, submit the included PBS batch script from the
+repository root on a login node:
+
+```bash
+qsub run_pipeline.pbs
+```
+
+The script activates `${HOME}/myenv310` by default. To use another virtual
+environment, supply its absolute directory path when submitting:
+
+```bash
+qsub -v EDDY_VENV=/absolute/path/to/venv run_pipeline.pbs
+```
+
+It uses the submission directory (`PBS_O_WORKDIR`) as the working directory,
+checks the configured ESP imports, and runs all stages independently of the
+notebook. It requests one node with 16 CPUs, 64 GB RAM, and a 12-hour walltime;
+adjust these requests for your workload and keep `parallel.workers` within
+the allocated CPU count. These resources have not been validated for the full
+run. Numerical library threads are limited to one per worker.
+
+After `qsub` returns a job ID, the batch job can run while you are disconnected.
+Use `qstat -u "$USER"` to check its status. Combined output and errors are
+returned to `seacofs_eddy.o<job-number>` in the submission directory; PBS logs
+are ignored by Git. PBS terminates the job if its walltime is exceeded.
+
 `notebooks/run_pipeline.ipynb` is the supported notebook control panel. Open it
 from the repository root or the `notebooks` directory, review the config, and
 select stages in `STAGES_TO_RUN` before executing that cell. Its supplied list

@@ -11,6 +11,8 @@ The updated dependency can change fitted parameters and downstream results.
 - Set the supplied Katana ESP path to
   `/home/z5297792/elliptical_streamfunction_parametrisation`.
 - Update package version, citation metadata, and runner notebook instructions.
+- Add a PBS batch script for all stages, with a configurable virtual environment
+  and submission directory as its working directory; ignore PBS job logs.
 - Document the local v0.1.0 results archive and the fresh output directory for
   the next run. These local data directories are outside the software release.
 
