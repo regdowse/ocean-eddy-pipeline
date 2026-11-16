@@ -16,3 +16,17 @@ venv/
 
 # System files
 .DS_Store
+
+# Local context and release preparation files
+/context/
+/NOTES.md
+/RELEASE_NOTES.md
+
+# Local agent and account configuration
+/.agents/
+/.codex/
+/.aws/
+
+# Publish only the pipeline runner notebook
+notebooks/*
+!notebooks/run_pipeline.ipynb
