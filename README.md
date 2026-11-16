@@ -191,9 +191,10 @@ notebook provides configuration, stage selection, and output inspection.
 
 ## Citation and licensing
 
-Pipeline author metadata, licence, and a pipeline DOI have not yet been added.
-These must be settled before public release; no licence for this repository
-is implied by ESP's licence. Cite ESP separately as described above.
+The author is Reg Dowse. Citation metadata is provided in `CITATION.cff`.
+This repository is available under the [MIT licence](LICENSE). A pipeline DOI
+has not yet been assigned. ESP remains a separate dependency under its own
+licence; cite ESP separately as described above.
 
 This release preparation changes documentation and notebook saved outputs only;
 scientific source, configuration values, and notebook code are preserved.

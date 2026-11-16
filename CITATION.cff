@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "Please cite this software using the metadata in this file. Cite ESP separately as described in the README."
+type: software
+title: "Ocean Eddy Pipeline: SEACOFS application"
+authors:
+  - family-names: Dowse
+    given-names: Reg
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/regdowse/ocean-eddy-pipeline"
+abstract: >-
+  SEACOFS ocean eddy detection, DOPPIO surface fitting, tracking,
+  vertical profile extraction, and tilt analysis pipeline.
