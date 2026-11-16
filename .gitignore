@@ -1,0 +1,18 @@
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Generated package and build files
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
