@@ -5,9 +5,18 @@ title: "Ocean Eddy Pipeline: SEACOFS application"
 authors:
   - family-names: Dowse
     given-names: Reg
-version: 0.1.0
+version: 0.1.1
 license: MIT
 repository-code: "https://github.com/regdowse/ocean-eddy-pipeline"
 abstract: >-
   SEACOFS ocean eddy detection, DOPPIO surface fitting, tracking,
-  vertical profile extraction, and tilt analysis pipeline.
+  vertical profile extraction, and tilt analysis pipeline using external ESP v1.1.
+references:
+  - type: software
+    title: "Elliptical Streamfunction Parametrisation (ESP)"
+    authors:
+      - family-names: Dowse
+        given-names: Reg
+    version: v1.1
+    doi: 10.5281/zenodo.24182671
+    repository-code: "https://github.com/regdowse/elliptical_streamfunction_parametrisation"

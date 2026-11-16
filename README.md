@@ -2,11 +2,11 @@
 
 This repository contains the SEACOFS application of a modular ocean eddy
 pipeline: Nencioli surface detection, DOPPIO fitting, temporal tracking,
-vertical profile extraction, and tilt analysis. This first release preserves
-the existing scientific implementation as a fixed version for citation.
+vertical profile extraction, and tilt analysis. Version 0.1.1 updates the
+external ESP dependency to v1.1 and names its configuration path `paths.esp_root`.
 Support for other models is outside this release's scope.
 
-The Python distribution is `seacofs-eddy-dataset` version `0.1.0`; imports use
+The Python distribution is `seacofs-eddy-dataset` version `0.1.1`; imports use
 `seacofs_eddy_dataset`. Model inputs and generated datasets are not included.
 
 ## Installation
@@ -71,23 +71,44 @@ that setting. Reload the config in a notebook after editing it.
 ## External ESP dependency
 
 DOPPIO surface fitting and vertical profile extraction require Elliptical
-Streamfunction Parametrisation (ESP) **v1.01**, the version used for this
-SEACOFS application.
+Streamfunction Parametrisation (ESP) **v1.1** for pipeline v0.1.1. Pipeline
+v0.1.0 used ESP v1.01.
 
-1. Download and extract ESP v1.01 from its
-   [version-specific Zenodo record](https://zenodo.org/records/19364198)
-   ([source release](https://github.com/regdowse/elliptical_streamfunction_parametrisation/tree/v1.01)).
+1. Download and extract ESP v1.1 from its
+   [version-specific Zenodo record](https://zenodo.org/records/24182671)
+   ([source release](https://github.com/regdowse/elliptical_streamfunction_parametrisation/tree/v1.1)).
 2. Set `paths.esp_root` in `config/local.yaml` to the extracted local
    directory containing `functions.py`. The supplied
    `/home/z5297792/elliptical_streamfunction_parametrisation` is specific to
    the Katana installation.
 3. Provide the dependencies required by that ESP release in the same Python
-   environment, following its own installation instructions.
+   environment, following its own installation instructions. Its `functions.py`
+   imports NumPy, pandas, SciPy, and Matplotlib.
+
+The complete `functions.py` can be retained without the ESP example data,
+applications, experiments, or Git metadata. Preserve all function definitions.
+For configurations from v0.1.0, rename `paths.esp_zonodo` to `paths.esp_root`.
 
 The adapter adds this directory to `sys.path`, imports the module `functions`,
 and calls `functions.doppio` and `functions.out_core_param_fit`. ESP is external
 and is not installed by this package. Cite it separately using its version DOI:
-[10.5281/zenodo.19364198](https://doi.org/10.5281/zenodo.19364198).
+[10.5281/zenodo.24182671](https://doi.org/10.5281/zenodo.24182671).
+
+## Existing results and the v0.1.1 run
+
+On the original Katana installation, previous results have been moved to
+`/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular_v0.1.0`.
+The configured `output_root`,
+`/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular`, is a fresh directory
+containing only the reference input `z_r.npy`. That array is retained only in
+the active directory; the archived results do not contain a duplicate.
+
+The v0.1.1 dataset has not yet been generated. To generate results with ESP
+v1.1, reload the configuration and run the full pipeline from detection through
+analysis. The runner notebook's supplied selection runs only the tilt stages;
+change that selection or use `seacofs-eddy run-all --config config/local.yaml`.
+Record the pipeline version, ESP version, and configuration with the generated
+dataset. The software release does not include generated data.
 
 ## Running the pipeline
 
@@ -193,11 +214,11 @@ notebook provides configuration, stage selection, and output inspection.
 ## Citation and licensing
 
 The author is Reg Dowse. Citation metadata is provided in `CITATION.cff`.
-This repository is available under the [MIT licence](LICENSE). A pipeline DOI
-has not yet been assigned. ESP remains a separate dependency under its own
+This repository is available under the [MIT licence](LICENSE). A DOI for
+pipeline v0.1.1 is not yet recorded here. ESP remains a separate dependency under its own
 licence; cite ESP separately as described above.
 
-This release preparation changes documentation and notebook saved outputs only;
-scientific source, configuration values, and notebook code are preserved.
-Static file checks passed, but installation and CLI execution still need
-verification in a Python >=3.10 environment with the required dependencies.
+See [CHANGELOG.md](CHANGELOG.md) for the v0.1.1 changes. The ESP dependency
+update can change fitted parameters and downstream results. Numerical
+compatibility and full pipeline execution with ESP v1.1 have not yet been
+validated in the target Python environment.
