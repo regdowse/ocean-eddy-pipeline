@@ -13,10 +13,11 @@ The updated dependency can change fitted parameters and downstream results.
 - Update package version, citation metadata, and runner notebook instructions.
 - Add a PBS batch script for all stages, with a configurable virtual environment
   and submission directory as its working directory; ignore PBS job logs.
-- Document the local v0.1.0 results archive and the fresh output directory for
-  the next run. These local data directories are outside the software release.
+- Document the local v0.1.0 results archive and the completed ESP v1.1 run;
+  clarify that local inputs and generated datasets are outside the software release.
+- Distinguish the existing v0.1.0 Zenodo DOI from the pending v0.1.1 archive.
 
-The v0.1.1 dataset has not yet been generated. Required ESP function definitions
-and argument signatures were checked in the local source. Full numerical
-compatibility and pipeline execution remain to be verified in the target
-environment; the available Python 3.12 environment lacks PyYAML.
+PBS job `9801291` reported completion on 17 November 2026 with exit status 0,
+listing products through tilt analysis and confirming the intended ESP import
+paths. See the README for execution evidence and memory-use qualifications.
+This is not a numerical-equivalence test against ESP v1.01.

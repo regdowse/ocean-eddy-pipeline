@@ -96,19 +96,22 @@ and is not installed by this package. Cite it separately using its version DOI:
 
 ## Existing results and the v0.1.1 run
 
-On the original Katana installation, previous results have been moved to
-`/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular_v0.1.0`.
-The configured `output_root`,
-`/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular`, is a fresh directory
-containing only the reference input `z_r.npy`. That array is retained only in
-the active directory; the archived results do not contain a duplicate.
+The SEACOFS pipeline has been run with ESP v1.1 on the original Katana
+installation. PBS job `9801291` completed on 17 November 2026; its local log
+reports exit status 0 and lists outputs through `analyse_tilt`. The startup
+checks confirm that both `doppio` and `out_core_param_fit` loaded from
+`/home/z5297792/elliptical_streamfunction_parametrisation/functions.py`.
 
-The v0.1.1 dataset has not yet been generated. To generate results with ESP
-v1.1, reload the configuration and run the full pipeline from detection through
-analysis. The runner notebook's supplied selection runs only the tilt stages;
-change that selection or use `seacofs-eddy run-all --config config/local.yaml`.
-Record the pipeline version, ESP version, and configuration with the generated
-dataset. The software release does not include generated data.
+The configured output directory is
+`/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular` and contains the
+reference input `z_r.npy` and generated products. Earlier results were moved to
+`/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular_v0.1.0`.
+These are local data locations, not files distributed with the software release.
+
+For future runs, retain the pipeline commit, ESP version/file hash, configuration
+and execution log alongside the generated dataset; the current products do not
+embed a complete producing source/configuration manifest. The software archive
+contains code and configuration, not model fields or generated eddy datasets.
 
 ## Running the pipeline
 
@@ -158,8 +161,10 @@ It uses the submission directory (`PBS_O_WORKDIR`) as the working directory,
 checks the configured ESP imports, and runs all stages independently of the
 notebook. It requests one node with 16 CPUs, 64 GB RAM, and a 12-hour walltime;
 adjust these requests for your workload and keep `parallel.workers` within
-the allocated CPU count. These resources have not been validated for the full
-run. Numerical library threads are limited to one per worker.
+the allocated CPU count. The logged run above used the full 64 GB allocation
+and recorded cgroup memory-limit events despite reporting exit status 0.
+Review output coverage and adjust memory or worker count for subsequent runs.
+Numerical library threads are limited to one per worker.
 
 After `qsub` returns a job ID, the batch job can run while you are disconnected.
 Use `qstat -u "$USER"` to check its status. Combined output and errors are
@@ -240,11 +245,17 @@ notebook provides configuration, stage selection, and output inspection.
 ## Citation and licensing
 
 The author is Reg Dowse. Citation metadata is provided in `CITATION.cff`.
-This repository is available under the [MIT licence](LICENSE). A DOI for
-pipeline v0.1.1 is not yet recorded here. ESP remains a separate dependency under its own
-licence; cite ESP separately as described above.
+This repository is available under the [MIT licence](LICENSE).
+
+The existing pipeline DOI
+[10.5281/zenodo.24272876](https://doi.org/10.5281/zenodo.24272876) archives
+**v0.1.0**, which documents ESP v1.01. It is not the version-specific DOI for
+this v0.1.1 release. Archive v0.1.1 as a new version of the existing Zenodo
+record and use its new version-specific DOI when citing this code/configuration.
+That DOI is not yet recorded here; add it to this section and `CITATION.cff`
+when assigned. Cite the external ESP v1.1 release separately using
+[10.5281/zenodo.24182671](https://doi.org/10.5281/zenodo.24182671).
 
 See [CHANGELOG.md](CHANGELOG.md) for the v0.1.1 changes. The ESP dependency
-update can change fitted parameters and downstream results. Numerical
-compatibility and full pipeline execution with ESP v1.1 have not yet been
-validated in the target Python environment.
+update can change fitted parameters and downstream results; completion of a
+run does not establish numerical equivalence with ESP v1.01.
