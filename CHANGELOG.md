@@ -2,9 +2,12 @@
 
 ## 0.1.1
 
-This release updates the SEACOFS pipeline to use external ESP v1.1
-([Zenodo DOI](https://doi.org/10.5281/zenodo.24182671)), replacing ESP v1.01.
-The updated dependency can change fitted parameters and downstream results.
+This release updates the SEACOFS pipeline from external ESP v1.01 and supports
+ESP v1.2. The recorded dataset-generation run used ESP v1.1
+([Zenodo DOI](https://doi.org/10.5281/zenodo.24182671)); v1.2 has a byte-identical
+computational `functions.py`, with presentation/notebook updates only.
+Changing from ESP v1.01 can change fitted parameters and downstream results;
+changing from v1.1 to v1.2 does not change the pipeline's ESP computational code.
 
 - Rename the external ESP configuration key from `paths.esp_zonodo` to
   `paths.esp_root`. Existing configuration files must use the new key.

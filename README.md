@@ -3,7 +3,9 @@
 This repository contains the SEACOFS application of a modular ocean eddy
 pipeline: Nencioli surface detection, DOPPIO fitting, temporal tracking,
 vertical profile extraction, and tilt analysis. Version 0.1.1 updates the
-external ESP dependency to v1.1 and names its configuration path `paths.esp_root`.
+external ESP dependency from v1.01 and names its configuration path `paths.esp_root`.
+ESP v1.2 is supported; its computational `functions.py` is identical to v1.1,
+which was used for the recorded dataset-generation run.
 Support for other models is outside this release's scope.
 
 The Python distribution is `seacofs-eddy-dataset` version `0.1.1`; imports use
@@ -70,13 +72,18 @@ that setting. Reload the config in a notebook after editing it.
 
 ## External ESP dependency
 
-DOPPIO surface fitting and vertical profile extraction require Elliptical
-Streamfunction Parametrisation (ESP) **v1.1** for pipeline v0.1.1. Pipeline
-v0.1.0 used ESP v1.01.
+DOPPIO surface fitting and vertical profile extraction support Elliptical
+Streamfunction Parametrisation (ESP) **v1.2** for pipeline v0.1.1. The recorded
+SEACOFS dataset-generation run used v1.1. Comparing the tagged v1.2 `functions.py`
+with that local v1.1 file confirms they are byte-identical (SHA-256
+`1c6b574f1084e9ee4eadfd01553464ff6fc5ae514e60180e7e804d09f212da9d`).
+The v1.2 release changes presentation and notebooks, not this computational file.
+Pipeline v0.1.0 documented ESP v1.01.
 
-1. Download and extract ESP v1.1 from its
-   [version-specific Zenodo record](https://zenodo.org/records/24182671)
-   ([source release](https://github.com/regdowse/elliptical_streamfunction_parametrisation/tree/v1.1)).
+1. Download and extract the
+   [ESP v1.2 source release](https://github.com/regdowse/elliptical_streamfunction_parametrisation/releases/tag/v1.2).
+   The computationally identical v1.1 remains available from its
+   [version-specific Zenodo record](https://zenodo.org/records/24182671).
 2. Set `paths.esp_root` in `config/local.yaml` to the extracted local
    directory containing `functions.py`. The supplied
    `/home/z5297792/elliptical_streamfunction_parametrisation` is specific to
@@ -91,8 +98,11 @@ For configurations from v0.1.0, rename `paths.esp_zonodo` to `paths.esp_root`.
 
 The adapter adds this directory to `sys.path`, imports the module `functions`,
 and calls `functions.doppio` and `functions.out_core_param_fit`. ESP is external
-and is not installed by this package. Cite it separately using its version DOI:
+and is not installed by this package. Cite the version actually used: the
+recorded dataset-generation dependency is v1.1,
 [10.5281/zenodo.24182671](https://doi.org/10.5281/zenodo.24182671).
+For a new run using v1.2, record and cite that release; the v1.1 DOI does not
+identify the v1.2 archive.
 
 ## Existing results and the v0.1.1 run
 
@@ -253,8 +263,11 @@ The existing pipeline DOI
 this v0.1.1 release. Archive v0.1.1 as a new version of the existing Zenodo
 record and use its new version-specific DOI when citing this code/configuration.
 That DOI is not yet recorded here; add it to this section and `CITATION.cff`
-when assigned. Cite the external ESP v1.1 release separately using
+when assigned. `CITATION.cff` retains ESP v1.1 as the recorded dataset-generation
+dependency, with DOI
 [10.5281/zenodo.24182671](https://doi.org/10.5281/zenodo.24182671).
+ESP v1.2 is a computationally identical supported alternative for future runs;
+cite its own release when using it.
 
 See [CHANGELOG.md](CHANGELOG.md) for the v0.1.1 changes. The ESP dependency
 update can change fitted parameters and downstream results; completion of a
