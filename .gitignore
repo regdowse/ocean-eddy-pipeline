@@ -31,6 +31,10 @@ venv/
 /.codex/
 /.aws/
 
-# Publish only the pipeline runner notebook
+# Publish the pipeline runner and daily snapshot scripts
 notebooks/*
 !notebooks/run_pipeline.ipynb
+!notebooks/daily_snapshots/
+notebooks/archive/
+notebooks/daily_snapshots/*.png
+notebooks/daily_snapshots/*.mp4

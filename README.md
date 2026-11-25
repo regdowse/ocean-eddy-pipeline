@@ -186,7 +186,23 @@ from the repository root or the `notebooks` directory, review the config, and
 select stages in `STAGES_TO_RUN` before executing that cell. Its supplied list
 selects only `compute_tilt` and `analyse_tilt`, requiring existing confirmed
 profiles. The `run_all(config)` shortcut is commented out. Other exploratory
-notebooks and helpers are excluded from this release.
+notebooks and helpers are kept locally in the Git-ignored `notebooks/archive/`.
+
+### Daily snapshots for animations
+
+The standalone [daily snapshot renderer](notebooks/daily_snapshots/README.md)
+plots existing processed eddies over the original SEACOFS surface velocities:
+
+```bash
+python -m pip install -e '.[plotting]'
+python notebooks/daily_snapshots/render_frames.py --start-day 2436 --end-day 2438
+```
+
+It preserves the overlay notebook's styling, fixes the layout across frames,
+clips boundary labels and ellipses, and writes resumable PNGs with a CSV manifest
+to `output_root/daily_overlay_frames/`. The original model velocity files are
+required in addition to the eddy dataset. See its README for date selection,
+output overrides and rendering controls.
 
 ## Outputs and resuming
 
