@@ -257,13 +257,13 @@ notebook provides configuration, stage selection, and output inspection.
 The author is Reg Dowse. Citation metadata is provided in `CITATION.cff`.
 This repository is available under the [MIT licence](LICENSE).
 
-The existing pipeline DOI
+The version-specific pipeline DOI for **v0.1.1** is
+[10.5281/zenodo.24457378](https://doi.org/10.5281/zenodo.24457378).
+Use this DOI when citing this code/configuration; it is also recorded in
+`CITATION.cff`. The earlier DOI
 [10.5281/zenodo.24272876](https://doi.org/10.5281/zenodo.24272876) archives
-**v0.1.0**, which documents ESP v1.01. It is not the version-specific DOI for
-this v0.1.1 release. Archive v0.1.1 as a new version of the existing Zenodo
-record and use its new version-specific DOI when citing this code/configuration.
-That DOI is not yet recorded here; add it to this section and `CITATION.cff`
-when assigned. `CITATION.cff` retains ESP v1.1 as the recorded dataset-generation
+**v0.1.0**, which documents ESP v1.01.
+`CITATION.cff` retains ESP v1.1 as the recorded dataset-generation
 dependency, with DOI
 [10.5281/zenodo.24182671](https://doi.org/10.5281/zenodo.24182671).
 ESP v1.2 is a computationally identical supported alternative for future runs;

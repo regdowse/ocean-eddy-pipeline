@@ -18,7 +18,8 @@ changing from v1.1 to v1.2 does not change the pipeline's ESP computational code
   and submission directory as its working directory; ignore PBS job logs.
 - Document the local v0.1.0 results archive and the completed ESP v1.1 run;
   clarify that local inputs and generated datasets are outside the software release.
-- Distinguish the existing v0.1.0 Zenodo DOI from the pending v0.1.1 archive.
+- Record the v0.1.1 Zenodo DOI (10.5281/zenodo.24457378) in the README and
+  citation metadata, distinguishing it from the earlier v0.1.0 archive.
 
 PBS job `9801291` reported completion on 17 November 2026 with exit status 0,
 listing products through tilt analysis and confirming the intended ESP import
