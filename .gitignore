@@ -38,3 +38,4 @@ notebooks/*
 notebooks/archive/
 notebooks/daily_snapshots/*.png
 notebooks/daily_snapshots/*.mp4
+notebooks/daily_snapshots/render_frames.pbs

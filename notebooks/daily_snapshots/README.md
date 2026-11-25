@@ -84,7 +84,44 @@ are expected. The script indexes file time metadata first, then opens each
 needed velocity file once during rendering and reads only selected surface
 slices. It runs headlessly and uses one process with bounded velocity memory.
 
-For Katana batch execution, activate the same environment as the pipeline and
-run the command from a PBS job with sufficient walltime. This renderer does
-not use `parallel.workers`; start with one CPU and measure your chosen range
-before requesting a full-record run. Movie encoding is a separate step.
+## Run all days on Katana
+
+From a login node, submit the supplied PBS script **from the repository root**:
+
+```bash
+cd /home/z5297792/ocean-eddy-pipeline
+qsub notebooks/daily_snapshots/render_frames.pbs
+```
+
+It requests one CPU, 4 GB RAM and four hours, activates `${HOME}/myenv310`,
+and renders all available model days using `config/local.yaml`. The current
+configuration writes PNGs and the manifest to:
+
+```text
+/srv/scratch/z5297792/SEACOFS_26yr_eddy_dataset_modular/daily_overlay_frames/
+```
+
+No movie is generated. The script does not use `parallel.workers` and limits
+numerical-library threads to one. A job-local writable Matplotlib cache is
+removed automatically when the shell exits normally.
+
+`qsub` returns the job ID. You can disconnect after submission; check progress
+with `qstat -u "$USER"`. Combined output/errors are returned to
+`seacofs_frames.o<job-number>` in the submission directory (ignored by Git).
+PBS may spool the log until completion. Successful completion ends with the
+renderer’s frame counts and manifest path; check the PBS exit status as well.
+
+If interrupted or timed out, submit the same command again to resume. These
+resource requests are initial allowances; use the first job's resource report
+to adjust subsequent requests if necessary. Do not submit a second writer
+while the first is still running.
+
+To use another environment, configuration or output directory:
+
+```bash
+qsub -v EDDY_VENV=/absolute/path/to/venv,EDDY_CONFIG=/absolute/path/config.yaml,EDDY_FRAME_DIR=/absolute/path/frames \
+  notebooks/daily_snapshots/render_frames.pbs
+```
+
+The PBS script deliberately omits `--overwrite`; for an intentional full
+redraw, use a new output directory or run the Python command with that option.
