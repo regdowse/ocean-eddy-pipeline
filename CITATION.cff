@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite this software using the metadata in this file. Cite ESP separately as described in the README."
+message: "Please cite this software using the metadata in this file. Cite the released SEACOFS dataset and ESP separately when used, as described in the README."
 type: software
 title: "Ocean Eddy Pipeline: SEACOFS application"
 authors:
@@ -13,6 +13,14 @@ abstract: >-
   SEACOFS ocean eddy detection, DOPPIO surface fitting, tracking,
   vertical profile extraction, and tilt analysis pipeline using external ESP v1.1.
 references:
+  - type: dataset
+    title: "SEACOFS mesoscale eddy dataset for the East Australian Current region (1994–2019)"
+    authors:
+      - family-names: Dowse
+        given-names: Reg W.
+    version: 1.0.0
+    doi: 10.5281/zenodo.24486070
+    url: "https://doi.org/10.5281/zenodo.24486070"
   - type: software
     title: "Elliptical Streamfunction Parametrisation (ESP)"
     authors:

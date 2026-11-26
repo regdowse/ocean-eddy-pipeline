@@ -20,6 +20,12 @@ Review `config/local.yaml`: the script needs `paths.model_root`,
 `processing.date_origin`. The processed surface table defaults to
 `output_root/processed/eddy_dataset_processed.parquet`.
 
+The released eddy tables are available in the
+[SEACOFS dataset v1.0.0](https://doi.org/10.5281/zenodo.24486070).
+The producing [pipeline software v0.1.1](https://doi.org/10.5281/zenodo.24457378)
+is archived separately; see the [repository README](../../README.md) for citation
+guidance.
+
 The original SEACOFS NetCDF velocity files are required for the speed field
 and arrows; the published eddy dataset alone cannot reproduce the overlays.
 ESP and the vertical depth array are not required. This script preserves the

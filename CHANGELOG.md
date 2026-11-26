@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Add prominent links to SEACOFS dataset v1.0.0
+  ([10.5281/zenodo.24486070](https://doi.org/10.5281/zenodo.24486070))
+  and distinguish its data citation and licence from pipeline software v0.1.1.
+- Add the dataset to software citation references and link the snapshot-rendering
+  documentation to the published data.
+- These documentation and citation updates do not change the computational code,
+  generation configuration, dataset files or published version identifiers.
+
 ## 0.1.1
 
 This release updates the SEACOFS pipeline from external ESP v1.01 and supports
