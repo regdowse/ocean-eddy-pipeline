@@ -1,8 +1,9 @@
-> **AVISO reference archive:** This branch preserves the older Tasman Sea
-> AVISO workflow for inputs spanning 1994–2019. Start with
-> [the AVISO archive README](aviso_eddy_dataset/README.md) for provenance,
-> installation, configuration, and limitations. The shared pipeline code below
-> is retained to support its imports. This branch is not the current `main`.
+> **AVISO development:** `aviso/tasman-sea-1994-2019` develops the archived
+> Tasman Sea workflow for inputs spanning 1994–2019. Start with the
+> [AVISO README](aviso_eddy_dataset/README.md) and
+> [daily snapshot workflow](aviso_eddy_dataset/notebooks/daily_snapshots/README.md).
+> The SEACOFS publications below identify separate model-derived products;
+> the AVISO dataset will have its own publication and producing code reference.
 
 # Ocean Eddy Pipeline
 

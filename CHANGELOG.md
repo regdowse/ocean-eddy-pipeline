@@ -2,13 +2,21 @@
 
 ## Unreleased
 
+- Record the legacy AVISO output archive and verify the configured ESP functions
+  match the current SEACOFS implementation; keep fresh outputs separate.
+
+- On the AVISO working branch, correct `processing.date_origin` to 1990-01-01
+  to match SEACOFS. Regenerate products made with the former 1950 setting.
+- Add native AVISO daily snapshots, a Katana PBS runner, date/day and input
+  consistency checks, and signature-verified image resumes.
 - Add prominent links to SEACOFS dataset v1.0.0
   ([10.5281/zenodo.24486070](https://doi.org/10.5281/zenodo.24486070))
   and distinguish its data citation and licence from pipeline software v0.1.1.
 - Add the dataset to software citation references and link the snapshot-rendering
   documentation to the published data.
-- These documentation and citation updates do not change the computational code,
-  generation configuration, dataset files or published version identifiers.
+- The publication-link and citation updates do not change the scientific kernels,
+  dataset files or published version identifiers. AVISO changes above are
+  unreleased and do not modify the published SEACOFS software or data.
 
 ## 0.1.1
 

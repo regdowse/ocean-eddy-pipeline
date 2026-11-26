@@ -1,0 +1,37 @@
+#!/bin/bash
+#PBS -N aviso_frames
+#PBS -l select=1:ncpus=1:mem=4gb
+#PBS -l walltime=04:00:00
+#PBS -j oe
+
+set -euo pipefail
+
+# Submit from the ocean-eddy-aviso worktree root.
+cd "${PBS_O_WORKDIR:?Submit with qsub from the repository root}"
+if [[ ! -f aviso_eddy_dataset/notebooks/daily_snapshots/render_frames.py ]]; then
+    echo "Submit this job from the ocean-eddy-aviso worktree root." >&2
+    exit 1
+fi
+
+EDDY_VENV="${EDDY_VENV:-${PWD}/.venv}"
+source "${EDDY_VENV}/bin/activate"
+
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export MPLBACKEND=Agg
+export PYTHONUNBUFFERED=1
+export PYTHONDONTWRITEBYTECODE=1
+
+MPLCONFIGDIR=$(mktemp -d "${TMPDIR:-/tmp}/aviso-frames.XXXXXX")
+export MPLCONFIGDIR
+trap 'rm -rf -- "$MPLCONFIGDIR"' EXIT
+
+frame_args=(--config "${EDDY_CONFIG:-aviso_eddy_dataset/config/example.yaml}")
+if [[ -n "${EDDY_FRAME_DIR:-}" ]]; then
+    frame_args+=(--output-dir "$EDDY_FRAME_DIR")
+fi
+
+printf 'Job: %s\nRepository: %s\nPython: %s\n' "${PBS_JOBID:-local}" "$PWD" "$(command -v python)"
+python aviso_eddy_dataset/notebooks/daily_snapshots/render_frames.py "${frame_args[@]}"

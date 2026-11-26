@@ -1,6 +1,8 @@
 paths:
   data_root: /srv/scratch/z5502183/AVISO_0.125
+  # New-run outputs; legacy data are in /srv/scratch/z5297792/archive_aviso_eddy_dataset.
   output_root: /srv/scratch/z5297792/aviso_eddy_dataset
+  # Same updated ESP functions.py directory as the current SEACOFS configuration.
   esp_root: /home/z5297792/elliptical_streamfunction_parametrisation
 
 files:
@@ -41,7 +43,8 @@ tracking:
   lookback_days: 4
 
 processing:
-  date_origin: "1950-01-01"
+  # Match SEACOFS: Day is the number of days since 1990-01-01.
+  date_origin: "1990-01-01"
   min_duration_days: 21
   ar_max: 5.0
   rc_max_km: 300.0

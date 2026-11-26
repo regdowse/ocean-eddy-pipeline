@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 
 from aviso_eddy_dataset.common import day_number, file_key, partition_path
-from aviso_eddy_dataset.config import PipelineConfig
+from aviso_eddy_dataset.config import PipelineConfig, load_config
 
 
 def config(tmp_path):
@@ -23,6 +23,13 @@ def config(tmp_path):
 def test_day_number_is_continuous_across_year_boundary(tmp_path):
     cfg = config(tmp_path)
     assert day_number("1994-12-31", cfg) + 1 == day_number("1995-01-01", cfg)
+
+
+def test_example_config_matches_seacofs_day_numbers():
+    cfg = load_config(Path(__file__).resolve().parents[1] / "config/example.yaml")
+    assert cfg.raw["processing"]["date_origin"] == "1990-01-01"
+    assert day_number("1994-01-02", cfg) == 1462
+    assert day_number("2019-02-28", cfg) == 10650
 
 
 def test_partition_names_are_source_specific(tmp_path):
