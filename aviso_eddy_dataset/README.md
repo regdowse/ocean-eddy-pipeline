@@ -10,6 +10,20 @@ altimetry. It uses absolute geostrophic velocities (`ugos`, `vgos`) and runs:
 
 There are no subsurface, vertical-profile, or tilt stages.
 
+## Related publications and citation
+
+The published [SEACOFS dataset v1.0.0](https://doi.org/10.5281/zenodo.24486070)
+contains model-derived eddies and their vertical structure. It is a separate
+product from the AVISO surface workflow in this branch and does not contain
+AVISO outputs.
+
+The [Ocean Eddy Pipeline v0.1.1 software archive](https://doi.org/10.5281/zenodo.24457378)
+identifies the SEACOFS release; it predates and does not include this AVISO
+package. Shared pipeline documentation is in the [repository README](../README.md).
+For an AVISO run, retain and cite the exact producing branch commit, configuration
+and ESP version. No AVISO dataset DOI has been assigned as part of this archive;
+add its separate data citation when the generated AVISO dataset is published.
+
 ## Archive scope and provenance
 
 This branch, `archive/aviso-tasman-sea-1994-2019`, preserves an older reference

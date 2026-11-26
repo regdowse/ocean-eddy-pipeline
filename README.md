@@ -6,6 +6,20 @@
 
 # Ocean Eddy Pipeline
 
+[![SEACOFS dataset DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24486070.svg)](https://doi.org/10.5281/zenodo.24486070)
+[![Pipeline software DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24457378.svg)](https://doi.org/10.5281/zenodo.24457378)
+
+| Published resource | Version | Access and citation |
+| --- | --- | --- |
+| SEACOFS mesoscale eddy dataset, East Australian Current region (1994–2019) | 1.0.0 | [Download data and documentation](https://doi.org/10.5281/zenodo.24486070) |
+| Ocean Eddy Pipeline: SEACOFS application | 0.1.1 | [Archived software and configuration](https://doi.org/10.5281/zenodo.24457378) · [Tagged source](https://github.com/regdowse/ocean-eddy-pipeline/tree/v0.1.1) |
+
+The data and software are separate publications with independent versions and
+DOIs. Cite the dataset when using the released eddy tables, and the producing
+software when describing their construction. The links above identify published
+versions; this repository may contain subsequent development and documentation
+updates.
+
 This repository contains the SEACOFS application of a modular ocean eddy
 pipeline: Nencioli surface detection, DOPPIO fitting, temporal tracking,
 vertical profile extraction, and tilt analysis. Version 0.1.1 updates the
@@ -111,6 +125,12 @@ For a new run using v1.2, record and cite that release; the v1.1 DOI does not
 identify the v1.2 archive.
 
 ## Existing results and the v0.1.1 run
+
+The published [SEACOFS dataset v1.0.0](https://doi.org/10.5281/zenodo.24486070)
+contains the generated eddy tables, vertical profiles, tilt products, static
+geometry, variable dictionary, generation configuration and dataset README.
+It covers 2 January 1994–28 February 2019. Source model velocity fields are
+distributed separately; see the dataset record for source attribution and access.
 
 The SEACOFS pipeline has been run with ESP v1.1 on the original Katana
 installation. PBS job `9801291` completed on 17 November 2026; its local log
@@ -278,6 +298,13 @@ notebook provides configuration, stage selection, and output inspection.
 
 The author is Reg Dowse. Citation metadata is provided in `CITATION.cff`.
 This repository is available under the [MIT licence](LICENSE).
+
+For the released **SEACOFS dataset v1.0.0**, cite
+[10.5281/zenodo.24486070](https://doi.org/10.5281/zenodo.24486070).
+Its Zenodo record provides the dataset citation and documents its **CC BY 4.0**
+licence. This dataset DOI identifies the released data, while the pipeline DOI
+below identifies the producing software. The dataset and ESP are also listed
+as separate references in `CITATION.cff`.
 
 The version-specific pipeline DOI for **v0.1.1** is
 [10.5281/zenodo.24457378](https://doi.org/10.5281/zenodo.24457378).
