@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -N aviso_eddy
+#PBS -l select=1:ncpus=2:mem=8gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+
+set -euo pipefail
+cd "${PBS_O_WORKDIR:?Submit from the ocean-eddy-aviso worktree root}"
+EDDY_VENV="${EDDY_VENV:-${PWD}/.venv}"
+source "${EDDY_VENV}/bin/activate"
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+export MPLBACKEND=Agg PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+MPLCONFIGDIR=$(mktemp -d "${TMPDIR:-/tmp}/aviso-run.XXXXXX")
+export MPLCONFIGDIR
+trap 'rm -rf -- "$MPLCONFIGDIR"' EXIT
+printf 'Job: %s\nRepository: %s\nPython: %s\n' "${PBS_JOBID:-local}" "$PWD" "$(command -v python)"
+python aviso_eddy_dataset/run_pipeline.py \
+    --config "${EDDY_CONFIG:-aviso_eddy_dataset/config/example.yaml}" \
+    --stages "${EDDY_STAGES:-detect_nencioli,fit_doppio_surface,track_eddies,process_tracked_dataset}"
+
+if [[ -n "${EDDY_LEGACY_ROOT:-}" ]]; then
+    audit_args=(--config "${EDDY_CONFIG:-aviso_eddy_dataset/config/example.yaml}" --legacy-root "$EDDY_LEGACY_ROOT")
+    if [[ "${EDDY_REQUIRE_PROCESSED:-0}" == 1 ]]; then
+        audit_args+=(--require-processed)
+    fi
+    python aviso_eddy_dataset/audit_run.py "${audit_args[@]}"
+fi
+if [[ -n "${EDDY_PREVIEW_START:-}" ]]; then
+    python aviso_eddy_dataset/notebooks/daily_snapshots/render_frames.py \
+        --config "${EDDY_CONFIG:-aviso_eddy_dataset/config/example.yaml}" \
+        --start-date "$EDDY_PREVIEW_START" --end-date "${EDDY_PREVIEW_END:-$EDDY_PREVIEW_START}"
+fi

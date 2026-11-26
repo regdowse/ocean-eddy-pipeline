@@ -160,6 +160,70 @@ Run the complete pipeline:
 aviso-eddy run-all --config aviso_eddy_dataset/config/example.yaml
 ```
 
+### Batch runs and provenance
+
+Use the AVISO batch runner from the worktree root; the root `run_pipeline.pbs`
+belongs to SEACOFS:
+
+```bash
+qsub -v EDDY_CONFIG=/absolute/path/config.yaml aviso_eddy_dataset/run_pipeline.pbs
+```
+
+The AVISO script activates the worktree `.venv` and initially requests two CPUs,
+8 GB RAM and two hours. Set workers within that allocation, and adjust resources
+after measuring a pilot. It checks the loaded ESP function paths, call signatures,
+input coordinates and continuous daily coverage. All configured paths must be
+absolute, and the output root must be separate from inputs and any configured
+`validation.legacy_root`. Optional `validation.start_date` and `end_date` enforce
+the expected source interval. Missing detection/surface-fit partitions stop the
+downstream stages, including when an older consolidated output already exists.
+
+Commit source changes before running. The runner records the producing commit,
+configuration, input/ESP SHA-256 hashes, package versions and environment under
+`output_root/provenance/`. It retains a source archive and runs each stage in a
+fresh process from a private extraction of that archive. Output resumes require
+the same producing commit, config, package versions, inputs and ESP file; use a
+fresh output root after changes. `execution_status.json` records stage timings
+and completion/failure. A completed process is not by itself a scientific audit.
+
+Prepare a small cross-year input subset without altering the source archive:
+
+```bash
+python aviso_eddy_dataset/prepare_pilot.py \
+  --work-root /srv/scratch/z5297792/aviso_validation/pilot_19941101_19950131 \
+  --start-date 1994-11-01 --end-date 1995-01-31
+```
+
+This creates separate annual subsets, verifies unchanged coordinate/time/velocity
+values after writing, saves original file hashes and source time indices, and
+creates a local configuration. For a two-day smoke test use 1994-12-31 through
+1995-01-01 and a separate work root. Empty final tracks are expected in that
+smoke test because the normal minimum duration is 21 elapsed days.
+
+After the four stages, audit by calendar date against the legacy archive:
+
+```bash
+python aviso_eddy_dataset/audit_run.py \
+  --config /absolute/path/to/pilot/config.yaml \
+  --legacy-root /srv/scratch/z5297792/archive_aviso_eddy_dataset \
+  --require-processed
+```
+
+Omit `--require-processed` for the two-day smoke test. The audit checks date/day
+mapping and keys, compares detection candidates exactly, and compares matched
+surface fits using original candidate coordinates/date/cyclonicity. It writes
+`validation/comparison.json`, daily counts and matched-fit tables. Legacy Day
+labels use 1950 and new labels use 1990; neither raw Day labels nor final Eddy
+IDs are correspondence keys. Pilot track lifetimes and edge retention are
+truncated, so final population counts cannot be compared as if both runs covered
+the full record.
+
+Set `EDDY_LEGACY_ROOT` when submitting to run this audit after the pipeline.
+`EDDY_REQUIRE_PROCESSED=1` requires a nonempty pilot population. Optional
+`EDDY_PREVIEW_START` and `EDDY_PREVIEW_END` select a short daily-image preview
+after a successful audit. The pipeline and audit retain existing scientific
+thresholds; they do not tune results to reproduce the legacy population.
+
 Alternatively, use the concise Katana control notebook at
 `aviso_eddy_dataset/notebooks/run_pipeline.ipynb` to load configuration, run
 individual or selected stages, and inspect detection, tracking, and processing

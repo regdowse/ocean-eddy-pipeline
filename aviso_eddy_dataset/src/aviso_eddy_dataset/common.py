@@ -24,6 +24,18 @@ def partition_path(config: PipelineConfig, stage: str, path: Path) -> Path:
     return config.output_root / stage / f"source={file_key(path)}.parquet"
 
 
+def require_partitions(config: PipelineConfig, stage: str) -> list[Path]:
+    """Require every expected source partition, including valid empty tables."""
+    paths = [partition_path(config, stage, path) for path in find_data_files(config)]
+    missing = [path for path in paths if not path.is_file()]
+    if missing:
+        sample = ", ".join(path.name for path in missing[:5])
+        raise FileNotFoundError(
+            f"Incomplete {stage}: missing {len(missing)}/{len(paths)} expected partitions: {sample}"
+        )
+    return paths
+
+
 def open_aviso(path: Path, config: PipelineConfig) -> xr.Dataset:
     variables = config.raw.get("variables", {})
     required = {

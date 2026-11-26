@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add an AVISO pipeline PBS runner with ESP/input preflight, a frozen producing
+  source archive, run manifests and stage status; reject changed-provenance resumes.
+- Require all expected detection and surface-fit partitions before downstream
+  fitting/tracking. Add verified pilot subsets and calendar-date legacy comparisons.
+
 - Record the legacy AVISO output archive and verify the configured ESP functions
   match the current SEACOFS implementation; keep fresh outputs separate.
 

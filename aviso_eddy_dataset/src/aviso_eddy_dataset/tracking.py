@@ -6,17 +6,13 @@ import pandas as pd
 from seacofs_eddy_dataset.core.tracking import clean_surface_eddies, tracking_kdtree_with_omega0
 from seacofs_eddy_dataset.io import read_partitions, write_partition
 
-from .common import find_data_files, open_aviso, partition_path
+from .common import find_data_files, open_aviso, require_partitions
 from .config import PipelineConfig
 from .grid import build_grid
 
 
-def _surface_paths(config: PipelineConfig):
-    return [partition_path(config, "surface_eddies", path) for path in find_data_files(config)]
-
-
 def clean(config: PipelineConfig) -> pd.DataFrame:
-    paths = [path for path in _surface_paths(config) if path.exists()]
+    paths = require_partitions(config, "surface_eddies")
     surface = read_partitions(paths)
     if surface.empty:
         return surface
@@ -59,6 +55,7 @@ def track(config: PipelineConfig) -> pd.DataFrame:
 
 
 def run(config: PipelineConfig) -> None:
+    require_partitions(config, "surface_eddies")
     output = config.output_root / "tracked" / "eddy_tracks.parquet"
     if config.skip_existing and output.exists():
         print(output)

@@ -9,7 +9,7 @@ from seacofs_eddy_dataset.core.doppio import find_directional_radii, transect_in
 from seacofs_eddy_dataset.core.esp import load_doppio_functions
 from seacofs_eddy_dataset.io import write_partition
 
-from .common import day_number, find_data_files, open_aviso, partition_path
+from .common import day_number, find_data_files, open_aviso, partition_path, require_partitions
 from .config import PipelineConfig
 from .grid import build_grid, native_velocity
 
@@ -135,6 +135,7 @@ def run_file(path: Path, config: PipelineConfig) -> Path:
 
 
 def run(config: PipelineConfig) -> None:
+    require_partitions(config, "detections")
     from joblib import Parallel, delayed
 
     backend = config.raw.get("parallel", {}).get("backend", "process")
