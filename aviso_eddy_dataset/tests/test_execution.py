@@ -89,6 +89,15 @@ class ExecutionTests(unittest.TestCase):
         self.assertEqual(result['processed_legacy_date_window']['eddies'],1)
         self.assertEqual(result['processed_legacy_window_min_duration']['eddies'],0)
         self.assertEqual(result['fitting']['centre_displacement_km']['maximum'],0.)
+        summary=auditor.audit(self.config,legacy,require_processed=True,summary_only=True)
+        self.assertEqual(summary['validation_mode'],'summary')
+        self.assertEqual(summary['source_days'],2)
+        self.assertEqual(summary['partition_counts'],{'detections':2,'surface_eddies':2})
+        self.assertEqual(summary['processed_new']['rows'],2)
+        cfg.raw['validation']={'expected_days':3}
+        self.config.write_text(yaml.safe_dump(cfg.raw))
+        with self.assertRaisesRegex(ValueError,'source-day coverage'):
+            auditor.audit(self.config,legacy,summary_only=True)
 
     def test_missing_partition_stops_tracking_even_with_existing_tracks(self):
         cfg = load_config(self.config)

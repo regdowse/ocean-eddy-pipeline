@@ -23,7 +23,7 @@ def population(df):
                 tracks_by_cyclonicity={str(k):int(v) for k,v in df.groupby('Cyc').Eddy.nunique().items()})
 
 
-def audit(config_path, legacy_root, require_processed=False):
+def audit(config_path, legacy_root, require_processed=False, summary_only=False):
     cfg=load_config(config_path)
     mapping=source_file_by_day(cfg)
     first=pd.Timestamp('1990-01-01')+pd.Timedelta(days=int(mapping.index.min()))
@@ -59,6 +59,35 @@ def audit(config_path, legacy_root, require_processed=False):
             if not np.all(np.diff(np.sort(group.Day))==1) or group.Cyc.nunique()!=1:
                 raise ValueError(f'Inconsistent processed track {eddy}')
     legacy=Path(legacy_root)
+    if summary_only:
+        expected=cfg.raw.get('validation',{})
+        partitions={stage:len(require_partitions(cfg,stage)) for stage in ['detections','surface_eddies']}
+        if 'expected_files' in expected and any(n!=expected['expected_files'] for n in partitions.values()):
+            raise ValueError('Unexpected full-run partition count')
+        if 'expected_days' in expected and len(mapping)!=expected['expected_days']:
+            raise ValueError('Unexpected full-run source-day coverage')
+        old=pd.read_parquet(legacy/'processed/eddy_dataset_processed.parquet',columns=['Eddy','Day','Date','Cyc'])
+        old=old.loc[pd.to_datetime(old.Date).between(first,last)]
+        daily=pd.DataFrame(index=pd.date_range(first,last))
+        for label,df in [('detections',tables['detections']),('processed_new',processed),('processed_legacy',old)]:
+            daily[label]=pd.to_datetime(df.Date).value_counts().reindex(daily.index,fill_value=0)
+        daily['finite_surface_centres']=pd.to_datetime(tables['surface_eddies'].loc[finite_centres,'Date']).value_counts().reindex(daily.index,fill_value=0)
+        annual=daily.groupby(daily.index.year).sum()
+        manifest=cfg.output_root/'provenance/run_manifest.json'
+        report=dict(validation_mode='summary',start_date=str(first.date()),end_date=str(last.date()),
+                    source_days=len(mapping),partition_counts=partitions,stage_counts=checks,
+                    processed_new=population(processed),processed_legacy=population(old),
+                    audit_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                    producing_source_commit=json.loads(manifest.read_text())['identity']['source_commit'] if manifest.exists() else None,
+                    qualifications=['Checks cover all partitions, date/day mappings, eddy-day keys and processed track continuity.',
+                                    'Legacy comparison is by calendar date and broad population counts; individual fits and track IDs are not matched.'])
+        out=cfg.output_root/'validation'
+        out.mkdir(exist_ok=True)
+        daily.to_csv(out/'daily_counts.csv',index_label='Date')
+        annual.to_csv(out/'annual_counts.csv',index_label='Year')
+        (out/'summary.json').write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
+        print(json.dumps(report,indent=2,allow_nan=False),flush=True)
+        return report
     legacy_tables={}
     for stage in ['detections','surface_eddies']:
         frames=[]
@@ -140,5 +169,6 @@ if __name__=='__main__':
     parser.add_argument('--config',type=Path,required=True)
     parser.add_argument('--legacy-root',type=Path,required=True)
     parser.add_argument('--require-processed',action='store_true')
+    parser.add_argument('--summary-only',action='store_true',help='Coverage/key/track checks and broad legacy counts; skip individual fit matching')
     args=parser.parse_args()
-    audit(args.config,args.legacy_root,args.require_processed)
+    audit(args.config,args.legacy_root,args.require_processed,args.summary_only)

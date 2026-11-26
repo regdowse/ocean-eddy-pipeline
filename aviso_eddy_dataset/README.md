@@ -224,6 +224,30 @@ Set `EDDY_LEGACY_ROOT` when submitting to run this audit after the pipeline.
 after a successful audit. The pipeline and audit retain existing scientific
 thresholds; they do not tune results to reproduce the legacy population.
 
+For the full record, `EDDY_AUDIT_MODE=summary` selects a lighter automatic audit:
+all partition/date/key/track-continuity checks, daily and annual counts, finite
+surface-centre counts and broad legacy population totals. It skips individual
+candidate matching and does not write a full matched-fit table. The equivalent
+standalone option is `audit_run.py --summary-only`. Optional
+`validation.expected_files` and `validation.expected_days` check planned coverage.
+
+The full Katana configuration is kept in ignored
+`aviso_eddy_dataset/config/local.yaml`, derived from the example. For the
+1994–2019 calculation use 16 workers and request one node with 16 CPUs, 32 GB
+and a 12-hour walltime, overriding the pilot defaults:
+
+```bash
+qsub -l select=1:ncpus=16:mem=32gb -l walltime=12:00:00 \
+  -v EDDY_CONFIG=aviso_eddy_dataset/config/local.yaml,EDDY_LEGACY_ROOT=/srv/scratch/z5297792/archive_aviso_eddy_dataset,EDDY_REQUIRE_PROCESSED=1,EDDY_AUDIT_MODE=summary \
+  aviso_eddy_dataset/run_pipeline.pbs
+```
+
+Submit from the worktree root. PBS owns the job after submission, so disconnecting
+does not interrupt it. Check `qstat -u "$USER"`; `output_root/provenance/execution_status.json`
+records completed stages while running, and `output_root/validation/summary.json`
+records the automatic full-run audit when finished. The requested walltime is an
+execution limit, not a runtime estimate. Queue time is additional.
+
 ### Initial pilot results (27 November 2026)
 
 Smoke job `9885855` and 92-day pilot job `9885865` both completed with exit

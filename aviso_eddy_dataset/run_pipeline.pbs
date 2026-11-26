@@ -23,6 +23,9 @@ if [[ -n "${EDDY_LEGACY_ROOT:-}" ]]; then
     if [[ "${EDDY_REQUIRE_PROCESSED:-0}" == 1 ]]; then
         audit_args+=(--require-processed)
     fi
+    if [[ "${EDDY_AUDIT_MODE:-detailed}" == summary ]]; then
+        audit_args+=(--summary-only)
+    fi
     python aviso_eddy_dataset/audit_run.py "${audit_args[@]}"
 fi
 if [[ -n "${EDDY_PREVIEW_START:-}" ]]; then
