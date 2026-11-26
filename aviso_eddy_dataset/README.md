@@ -224,6 +224,40 @@ Set `EDDY_LEGACY_ROOT` when submitting to run this audit after the pipeline.
 after a successful audit. The pipeline and audit retain existing scientific
 thresholds; they do not tune results to reproduce the legacy population.
 
+### Initial pilot results (27 November 2026)
+
+Smoke job `9885855` and 92-day pilot job `9885865` both completed with exit
+status 0 using producing commit `e2c0f2e`. The pilot covered 1 November 1994–
+31 January 1995 and generated all four stages plus three daily overlay frames.
+
+| Pilot comparison | Updated ESP | Legacy reference |
+| --- | ---: | ---: |
+| Detection candidates | 7,012 | 7,012, identical candidates |
+| Finite fitted centres | 6,870 | 6,861 |
+| Tracks with at least 21 elapsed days in the pilot window | 95 | 95 |
+| Processed eddy-days for those tracks | 4,079 | 4,042 |
+
+The legacy duration reference filters the published full-record tracks to this
+date window; it is not a rerun of legacy tracking. Without that duration filter,
+the date-window subset includes 124 legacy tracks and 4,343 eddy-days. Raw totals
+therefore exaggerate a population difference caused by truncating the record.
+The updated pilot contains 46 AE and 49 CE tracks, with 45 tracks crossing the
+year boundary. Equal track counts do not imply identical trajectories or IDs.
+
+Across candidates with finite centres in both versions, median centre separation
+is 7.7 m and the 95th percentile is 264 m. Thirteen previously missing centres
+became finite, while four became missing. Twelve raw candidates changed centre
+by more than 10 km; only one reaches the updated processed dataset. Its new
+centre is 0.9 km from the initial detection versus 37 km for the rejected legacy
+fit, consistent with the existing centre-error filter. Large raw outer-radius
+changes also occur among poorly constrained fits; inspect downstream screening
+rather than treating every raw fit as an accepted eddy.
+
+The pilot took 2 minutes 30 seconds on two CPUs, using approximately 1.02 GB
+peak memory. These are pilot measurements, not a full-record runtime guarantee.
+Coverage, rare failures and long-track behaviour still require the full-record
+run. No scientific thresholds were adjusted to obtain these pilot results.
+
 Alternatively, use the concise Katana control notebook at
 `aviso_eddy_dataset/notebooks/run_pipeline.ipynb` to load configuration, run
 individual or selected stages, and inspect detection, tracking, and processing

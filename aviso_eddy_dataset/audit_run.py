@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -67,6 +68,10 @@ def audit(config_path, legacy_root, require_processed=False):
         legacy_tables[stage]=pd.concat(frames,ignore_index=True)
     old_processed=pd.read_parquet(legacy/'processed/eddy_dataset_processed.parquet')
     old_processed=old_processed.loc[pd.to_datetime(old_processed.Date).between(first,last)].copy()
+    duration=int(cfg.raw.get('processing',{}).get('min_duration_days',21))
+    old_window_retained=old_processed.groupby('Eddy').filter(
+        lambda group: (pd.to_datetime(group.Date).max()-pd.to_datetime(group.Date).min()).days>=duration
+    )
     keys=['Date','nxc','nyc','nic','njc','Cyc']
     new=tables['detections'][keys].sort_values(keys).reset_index(drop=True)
     old=legacy_tables['detections'][keys].sort_values(keys).reset_index(drop=True)
@@ -87,6 +92,11 @@ def audit(config_path, legacy_root, require_processed=False):
                             median_absolute_difference=float((a[valid]-b[valid]).abs().median()) if valid.any() else None)
     new_valid=np.isfinite(matched.xc_new)&np.isfinite(matched.yc_new)
     old_valid=np.isfinite(matched.xc_legacy)&np.isfinite(matched.yc_legacy)
+    displacement=np.hypot(matched.xc_new-matched.xc_legacy,matched.yc_new-matched.yc_legacy)
+    finite_displacement=displacement[np.isfinite(displacement)]
+    centre_summary={name:float(finite_displacement.quantile(q)) if len(finite_displacement) else None
+                    for name,q in [('median',.5),('p95',.95),('p99',.99),('maximum',1.)]}
+    centre_summary.update(over_1km=int((displacement>1).sum()),over_10km=int((displacement>10).sum()))
     daily=pd.DataFrame(index=pd.date_range(first,last))
     for label,df in [('new_detections',tables['detections']),('legacy_detections',legacy_tables['detections']),
                      ('new_processed',processed),('legacy_processed',old_processed)]:
@@ -101,12 +111,19 @@ def audit(config_path, legacy_root, require_processed=False):
                 matched_candidates=len(matched),
                 fitting=dict(new_finite_centres=int(new_valid.sum()),legacy_finite_centres=int(old_valid.sum()),
                              recovered_centres=int((new_valid&~old_valid).sum()),lost_centres=int((old_valid&~new_valid).sum()),
+                             centre_displacement_km=centre_summary,
                              parameters=metrics),
                 processed_new=population(processed),processed_legacy_date_window=population(old_processed),
+                processed_legacy_window_min_duration=population(old_window_retained),
+                pilot_min_duration_days=duration,
                 new_tracks_crossing_year_boundary=crossyear,
                 qualifications=['Legacy tracks span the full record; pilot track durations and boundary retention are censored.',
+                                'The legacy minimum-duration reference filters published tracks within the pilot window; it is not a rerun of legacy tracking.',
                                 'Eddy IDs and raw Day values are not correspondence keys.',
                                 'Fit comparisons use identical original candidate locations, dates and cyclonicity.'])
+    report['audit_source_sha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+    manifest=cfg.output_root/'provenance/run_manifest.json'
+    report['producing_source_commit']=json.loads(manifest.read_text())['identity']['source_commit'] if manifest.exists() else None
     out=cfg.output_root/'validation'
     out.mkdir(exist_ok=True)
     daily.to_csv(out/'daily_counts.csv',index_label='Date')

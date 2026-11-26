@@ -86,6 +86,9 @@ class ExecutionTests(unittest.TestCase):
         self.assertTrue(result['detection_candidates_identical'])
         self.assertEqual(result['matched_candidates'],2)
         self.assertEqual(result['new_tracks_crossing_year_boundary'],1)
+        self.assertEqual(result['processed_legacy_date_window']['eddies'],1)
+        self.assertEqual(result['processed_legacy_window_min_duration']['eddies'],0)
+        self.assertEqual(result['fitting']['centre_displacement_km']['maximum'],0.)
 
     def test_missing_partition_stops_tracking_even_with_existing_tracks(self):
         cfg = load_config(self.config)
