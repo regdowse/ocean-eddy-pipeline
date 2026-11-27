@@ -258,12 +258,12 @@ be credited before publication.
 
 Enter the following relationships *from this AVISO dataset to the linked item*:
 
-| Identifier | Relationship | Resource type |
-| --- | --- | --- |
+| Identifier | Scheme | Relationship | Resource type |
+| --- | --- | --- | --- |
 '''
     for row in metadata['related_identifiers']:
         label='Is derived from' if row['relation']=='isDerivedFrom' else 'References'
-        text+=f"| {row['identifier']} | {label} | {row['resource_type']} |\n"
+        text+=f"| {row['identifier']} | {row['scheme'].upper()} | {label} | {row['resource_type']} |\n"
     return text+'''
 If the form provides GitHub/repository fields, use the version-tag URL above.
 This is a new AVISO dataset record, not a new version of the SEACOFS dataset.
