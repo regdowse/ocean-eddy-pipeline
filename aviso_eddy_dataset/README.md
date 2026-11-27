@@ -1,5 +1,8 @@
 # AVISO Tasman Sea Eddy Dataset (1994–2019)
 
+**Data and preserved source, v1.0.0:** [10.5281/zenodo.24575702](https://doi.org/10.5281/zenodo.24575702).
+See the [dataset README](release/README.md) and [variable dictionary](release/variables.csv).
+
 This package applies the SEACOFS surface eddy framework to daily AVISO
 altimetry. It uses absolute geostrophic velocities (`ugos`, `vgos`) and runs:
 
@@ -20,13 +23,13 @@ AVISO outputs.
 The [Ocean Eddy Pipeline v0.1.1 software archive](https://doi.org/10.5281/zenodo.24457378)
 identifies the SEACOFS release; it predates and does not include this AVISO
 package. Shared pipeline documentation is in the [repository README](../README.md).
-Publish the AVISO outputs as a **separate Zenodo dataset with its own DOI**.
-Link that record to the exact producing AVISO commit and a named release tag
-from this working branch, and retain the configuration and ESP version/hash.
-Shared methods can refer to SEACOFS documentation, but the AVISO inputs, fields,
-settings, quality control and limitations need their own concise documentation.
-A separate AVISO software DOI is optional if the producing source snapshot is
-preserved with the dataset. No AVISO DOI has been assigned in this work.
+The AVISO publication uses **one dataset DOI covering the data and preserved
+producing source**, https://doi.org/10.5281/zenodo.24575702. The exact producing
+commit is `32e769460fb34284df7ab8d1972d52df2f524dd0`; publication documentation
+is tagged `aviso-dataset-v1.0.0`. There is no additional AVISO software DOI.
+The deposit contains concise AVISO methods, field definitions, generating
+configuration, environment, source/input/ESP hashes and validation results.
+Shared SEACOFS and ESP citations identify the reused framework and dependency.
 
 ## Archive scope and provenance
 

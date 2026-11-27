@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "Please cite this dataset DOI for the AVISO data and preserved producing source. Cite the source product, ESP and scientific methods as described in the README."
+type: dataset
+title: "AVISO-derived mesoscale eddy dataset for the East Australian Current and Tasman Sea (1994–2019)"
+authors:
+  - family-names: Dowse
+    given-names: Reg W.
+    orcid: "https://orcid.org/0009-0000-6856-3115"
+    affiliation: "University of New South Wales"
+version: 1.0.0
+doi: 10.5281/zenodo.24575702
+url: "https://doi.org/10.5281/zenodo.24575702"
+license: CC-BY-4.0
+repository-code: "https://github.com/regdowse/ocean-eddy-pipeline/tree/aviso-dataset-v1.0.0"
+abstract: >-
+  Surface mesoscale eddy detections, fitted parameters and tracks derived from
+  daily AVISO/SSALTO-DUACS absolute geostrophic velocities in the East Australian
+  Current and Tasman Sea region, 2 January 1994–28 February 2019. The release
+  contains 9002 eddies and 454519 processed eddy-days, intermediate stages,
+  coordinate reference, configuration, provenance and the exact producing source.
+references:
+  - type: dataset
+    title: "Global Ocean Gridded L4 Sea Surface Heights and Derived Variables Reprocessed"
+    doi: 10.48670/moi-00148
+  - type: software
+    title: "Elliptical Streamfunction Parametrisation (ESP)"
+    version: v1.1
+    doi: 10.5281/zenodo.24182671
+  - type: software
+    title: "Ocean Eddy Pipeline: SEACOFS application"
+    version: 0.1.1
+    doi: 10.5281/zenodo.24457378
+  - type: article
+    title: "A Geometric Framework for Mapping Ocean Eddies Using Elliptical Streamfunction Parameterisation"
+    doi: 10.5194/egusphere-2026-3599
+  - type: article
+    title: "A Vector Geometry-Based Eddy Detection Algorithm and Its Application to a High-Resolution Numerical Model and to High-Frequency Radar Surface Velocities in the Southern California Bight"
+    doi: 10.1175/2009JTECHO725.1

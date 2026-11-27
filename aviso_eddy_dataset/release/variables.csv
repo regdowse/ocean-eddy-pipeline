@@ -1,0 +1,32 @@
+field,stages,units,description
+Eddy,tracked;processed,1,Track ID; processed IDs are renumbered and do not preserve tracked IDs
+Day,all,days since 1990-01-01,Integer calendar-day coordinate; final range 1462 to 10650
+Date,all,calendar date,Daily timestamp corresponding to Day; use dates when comparing different day origins
+Cyc,detections;tracked;processed,category,AE anticyclonic or CE cyclonic in the Southern Hemisphere
+nCyc,surface_eddies;tracked,category,Original Nencioli candidate cyclonicity; retained separately from assigned tracking label
+source_file,all,path,Historical absolute path to annual input file; use basename on another installation
+nxc,detections;surface_eddies;tracked,km,Nencioli candidate x coordinate on the interpolated detection grid
+nyc,detections;surface_eddies;tracked,km,Nencioli candidate y coordinate on the interpolated detection grid
+nic,detections;surface_eddies;tracked,1,Zero-based nearest native longitude-cell index in increasing-coordinate order
+njc,detections;surface_eddies;tracked,1,Zero-based nearest native latitude-cell index in increasing-coordinate order
+xc,surface_eddies;tracked;processed,km,Fitted centre x; processed values can include interpolation
+yc,surface_eddies;tracked;processed,km,Fitted centre y; processed values can include interpolation
+lon,processed,degrees_east,Geographic longitude interpolated from the fitted centre
+lat,processed,degrees_north,Signed geographic latitude interpolated from the fitted centre; negative is south
+ic,processed,1,Zero-based nearest native longitude-cell index for the processed centre
+jc,processed,1,Zero-based nearest native latitude-cell index for the processed centre
+w,surface_eddies;tracked;processed,s^-1,Relative vorticity rather than vertical velocity; processed w = Omega*(q11+q22)
+Omega0,surface_eddies;tracked,s^-1,Inner-core fitted rotation parameter; used for acceptance and temporal linking
+Omega,surface_eddies;tracked;processed,s^-1,Outer fitted rotation parameter; processing can substitute Omega0 for rejected outer fits
+q11,surface_eddies;tracked;processed,1,First diagonal element of symmetric shape matrix Q; processed Q is smoothed and can be interpolated
+q12,surface_eddies;tracked;processed,1,Off-diagonal element of symmetric Q; q21 equals q12
+q22,surface_eddies;tracked;processed,1,Second diagonal element of symmetric Q
+Rc,surface_eddies;tracked;processed,km,Gaussian radial scale; distinct from R and from a physical ellipse semiaxis
+psi0,surface_eddies;tracked;processed,m km s^-1,Gaussian streamfunction amplitude in stored mixed units; multiply by 1000 for m^2 s^-1
+R,surface_eddies;tracked;processed,km,Mean available four-direction peak-speed radius; final minimum is applied to track-mean R
+AR,processed,1,Aspect ratio sqrt of largest over smallest Q eigenvalue
+Age,processed,days,Total number of daily rows in the processed track repeated on each row; not elapsed age
+err,tracked,km,Distance between initial candidate and fitted centre used in acceptance
+Omega0_abs,tracked,s^-1,Absolute inner-core rotation parameter used for acceptance
+eddy_idx,tracked,1,Within-day observation index assigned before tracking; not a final track ID
+next_num,tracked,1,Tracker bookkeeping counter for the next available identifier; not an eddy property

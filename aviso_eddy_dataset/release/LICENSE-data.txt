@@ -1,0 +1,35 @@
+AVISO-derived mesoscale eddy dataset, version 1.0.0
+Copyright (c) 2026 Reg W. Dowse for the derived eddy tables and documentation.
+
+The derived eddy tables and documentation are licensed under Creative Commons
+Attribution 4.0 International (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+Legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Credit the creator, link the licence, and indicate changes when redistributing
+or adapting this work. Citation: https://doi.org/10.5281/zenodo.24575702
+
+SOURCE ATTRIBUTION AND COMPONENT TERMS
+
+Generated using E.U. Copernicus Marine Service Information;
+https://doi.org/10.48670/moi-00148.
+
+The original velocity product and native geographic coordinates originate from
+the European Union / Copernicus Marine Service, with production attributed in
+the source files to CMEMS Sea Level TAC, CLS and CNES. Their pre-existing rights
+are retained. The coordinate reference includes native source coordinates;
+these source components remain subject to the Copernicus Marine licence:
+https://marine.copernicus.eu/user-corner/service-commitments-and-licence
+
+Preserve the source acknowledgement and source-product DOI when reusing these
+data. The included provenance/input hashes retain traceability. The upstream
+licence's attribution and traceability provisions continue to apply where
+relevant; this derived-data licence does not replace the upstream licence or
+claim ownership of the original Copernicus information.
+
+PIPELINE SOURCE
+
+The preserved pipeline source remains under its MIT licence; see
+LICENSE-code.txt and the original LICENSE inside provenance/source.tar.
+The external ESP dependency is not redistributed in this package; obtain it
+from its cited archive and retain its own licence and citation requirements.
