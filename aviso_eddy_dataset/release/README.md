@@ -1,7 +1,9 @@
 # AVISO-derived mesoscale eddy dataset for the East Australian Current and Tasman Sea (1994–2019)
 
-**Version:** 1.0.0. **Creator:** Reg W. Dowse.  
-**Dataset and preserved-source DOI:** https://doi.org/10.5281/zenodo.24575702  
+**Version:** 1.0.0. **Creator:** Reg W. Dowse.
+
+**Dataset and preserved-source DOI:** https://doi.org/10.5281/zenodo.24575702
+
 **Derived eddy tables and documentation:** CC BY 4.0. **Pipeline source:** MIT.
 
 Generated using E.U. Copernicus Marine Service Information;
